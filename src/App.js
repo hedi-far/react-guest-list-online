@@ -2,37 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
-  // // hardcoded array of guests
-  // const guestList = [
-  //   {
-  //     fname: 'Veronika',
-  //     lname: 'Maier',
-  //     attendance: 'Yes',
-  //   },
-  //   {
-  //     fname: 'Thomas',
-  //     lname: 'Porter',
-  //     attendance: 'No',
-  //   },
-  //   {
-  //     fname: 'Alexandra',
-  //     lname: 'Huber',
-  //     attendance: 'Pending',
-  //   },
-  // ];
-
-  // // adds an incrementing id to each object
-  // guestList.forEach((o, i) => (o.id = i + 1));
-
-  // console.log(guestList);
-
-  // Test push to array - works
-  // const newguest = guest.push({
-  //   fname: 'Marion',
-  //   lname: 'Dortschak',
-  //   attendance: 'no',
-  // });
-
   // set state for input fields
   const [fname, setfName] = React.useState('');
   const [lname, setlName] = React.useState('');
@@ -62,30 +31,18 @@ function App() {
     }
 
     newGuest();
-
-    // //creating new array newList by adding incoming values to array "list" (=inital state)
-    // const newList = list.concat({ fname, lname, attendance });
-
-    // // adds an incrementing id to each object
-    // const createID = list.forEach((o, i) => (o.id = i + 1));
-
-    // setList(newList);
-
-    // console.log(newList);
   };
-
-  // console.log(checkboxes);
-
-  // Object.keys() liefert ein Array, dessen Elemente Strings sind, welche die aufzählbaren Eigenschaften des Objekts respräsentieren.
 
   // set state for checkbox
   const [checkboxes, setCheckboxes] = React.useState({});
+
+  // Object.keys() liefert ein Array, dessen Elemente Strings sind, welche die aufzählbaren Eigenschaften des Objekts respräsentieren.
 
   const checkboxKeys = Object.keys(checkboxes);
 
   //when Delete button is clicked:
   function handleDelete(id) {
-    async function DeleteTest() {
+    async function deleteGuest() {
       const response = await fetch(
         `https://hedi-guest-list-server.herokuapp.com/${checkboxKeys}`,
         {
@@ -96,16 +53,27 @@ function App() {
 
       console.log(deletedGuest);
     }
-    DeleteTest();
+    deleteGuest();
+  }
 
-    // const filteredList = list.filter((item) => {
-    //   if (checkboxKeys.includes(String(item.id))) {
-    //     return false;
-    //   }
-    //   return true;
-    // });
-    // setList(filteredList);
-    // // console.log(filteredList);
+  //when Edit button is clicked:
+  function handleEdit(id) {
+    async function editGuest() {
+      const response = await fetch(
+        `https://hedi-guest-list-server.herokuapp.com/${checkboxKeys}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ attending: true }),
+        },
+      );
+      const updatedGuest = await response.json();
+
+      console.log(updatedGuest);
+    }
+    editGuest();
   }
 
   //set state for guestList array
@@ -192,6 +160,19 @@ function App() {
             id="delete"
           >
             Delete
+          </button>
+        </label>
+      </p>
+
+      {/* Edit-Button */}
+      <p>
+        <label>
+          <button
+            type="button"
+            onClick={(item) => handleEdit(item.id)}
+            id="delete"
+          >
+            Confirm attendance
           </button>
         </label>
       </p>
