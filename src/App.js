@@ -55,32 +55,51 @@ function App() {
   const [fname, setfName] = React.useState('');
   const [lname, setlName] = React.useState('');
 
-  // set state for radio button
-  const [attendance, setAttendance] = React.useState('');
+  //When Submit button is clicked:
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
 
-  // set state for checkbox
-  const [checkboxes, setCheckboxes] = React.useState({});
+    // create a new guest
+    async function PostTest() {
+      const response = await fetch(
+        `https://hedi-guest-list-server.herokuapp.com/`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            firstName: fname,
+            lastName: lname,
+          }),
+        },
+      );
+      const createdGuest = await response.json();
+
+      console.log(createdGuest);
+    }
+
+    PostTest();
+
+    // //creating new array newList by adding incoming values to array "list" (=inital state)
+    // const newList = list.concat({ fname, lname, attendance });
+
+    // // adds an incrementing id to each object
+    // const createID = list.forEach((o, i) => (o.id = i + 1));
+
+    // setList(newList);
+
+    // console.log(newList);
+  };
 
   // console.log(checkboxes);
 
   // Object.keys() liefert ein Array, dessen Elemente Strings sind, welche die aufzählbaren Eigenschaften des Objekts respräsentieren.
 
+  // set state for checkbox
+  const [checkboxes, setCheckboxes] = React.useState({});
+
   const checkboxKeys = Object.keys(checkboxes);
-
-  //When Submit button is clicked:
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-
-    //creating new array newList by adding incoming values to array "list" (=inital state)
-    const newList = list.concat({ fname, lname, attendance });
-
-    // adds an incrementing id to each object
-    const createID = list.forEach((o, i) => (o.id = i + 1));
-
-    setList(newList);
-
-    // console.log(newList);
-  };
 
   //when Delete button is clicked:
   function handleDelete(id) {
@@ -111,7 +130,6 @@ function App() {
           id="firstName"
           onChange={(e) => setfName(e.target.value)}
         />
-
         <br />
         <br />
         <label>Last name:</label>
@@ -120,39 +138,8 @@ function App() {
           id="lastName"
           onChange={(e) => setlName(e.target.value)}
         />
-
-        <br />
         <br />
 
-        {/* Attendance */}
-        <p>Attendance:</p>
-
-        <input
-          type="radio"
-          name="attendance"
-          value="Yes"
-          onChange={(e) => setAttendance(e.target.value)}
-        />
-        <label>Yes</label>
-
-        <input
-          type="radio"
-          id="no"
-          name="attendance"
-          value="No"
-          onChange={(e) => setAttendance(e.target.value)}
-        />
-        <label>No</label>
-
-        <input
-          type="radio"
-          id="pending"
-          name="attendance"
-          value="Pending"
-          onChange={(e) => setAttendance(e.target.value)}
-        />
-        <label> Pending</label>
-        <br />
         <p>
           <button>Submit</button>
         </p>
