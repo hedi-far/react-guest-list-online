@@ -2,24 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
-  //set state for guestList array
-  const [list, setList] = React.useState([]);
-
-  useEffect(() => {
-    //fetch of guestList from server, runs once
-    const getList = async () => {
-      const response = await fetch(
-        `https://hedi-guest-list-server.herokuapp.com/`,
-      );
-      const data = await response.json();
-      setList(data);
-
-      console.log(data);
-    };
-
-    getList();
-  }, []);
-
   // // hardcoded array of guests
   // const guestList = [
   //   {
@@ -60,7 +42,7 @@ function App() {
     e.preventDefault();
 
     // create a new guest
-    async function PostTest() {
+    async function newGuest() {
       const response = await fetch(
         `https://hedi-guest-list-server.herokuapp.com/`,
         {
@@ -79,7 +61,7 @@ function App() {
       console.log(createdGuest);
     }
 
-    PostTest();
+    newGuest();
 
     // //creating new array newList by adding incoming values to array "list" (=inital state)
     // const newList = list.concat({ fname, lname, attendance });
@@ -103,18 +85,46 @@ function App() {
 
   //when Delete button is clicked:
   function handleDelete(id) {
-    const filteredList = list.filter((item) => {
-      if (checkboxKeys.includes(String(item.id))) {
-        return false;
-      }
+    async function DeleteTest() {
+      const response = await fetch(
+        `https://hedi-guest-list-server.herokuapp.com/${checkboxKeys}`,
+        {
+          method: 'DELETE',
+        },
+      );
+      const deletedGuest = await response.json();
 
-      return true;
-    });
+      console.log(deletedGuest);
+    }
+    DeleteTest();
 
-    setList(filteredList);
-
-    // console.log(filteredList);
+    // const filteredList = list.filter((item) => {
+    //   if (checkboxKeys.includes(String(item.id))) {
+    //     return false;
+    //   }
+    //   return true;
+    // });
+    // setList(filteredList);
+    // // console.log(filteredList);
   }
+
+  //set state for guestList array
+  const [list, setList] = useState([]);
+
+  //fetch guest list from server, runs once
+  useEffect(() => {
+    const getList = async () => {
+      const response = await fetch(
+        `https://hedi-guest-list-server.herokuapp.com/`,
+      );
+      const data = await response.json();
+      setList(data);
+
+      console.log(data);
+    };
+
+    getList();
+  }, []);
 
   return (
     <div className="App">
@@ -144,8 +154,34 @@ function App() {
           <button>Submit</button>
         </p>
       </form>
-
-      {/* <p>{list.firstName[0]}</p> */}
+      {/* Tabelle */}
+      <h1 className="guestlist"> Guest list:</h1>
+      <table>
+        <tbody>
+          <tr>
+            <th></th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Attendance</th>
+          </tr>
+          {list.map((item) => (
+            <tr key={item.id}>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={checkboxes[item.id]}
+                  onChange={() => {
+                    setCheckboxes({ ...checkboxes, [item.id]: true });
+                  }}
+                />
+              </td>
+              <td>{item.firstName}</td>
+              <td>{item.lastName}</td>
+              <td>{JSON.stringify(item.attending)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
       {/* Delete-Button */}
       <p>
