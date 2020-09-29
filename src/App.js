@@ -2,6 +2,23 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 
 function App() {
+  //set state for guestList array
+  const [list, setList] = useState([]);
+
+  //fetch guest list from server, runs once
+  useEffect(() => {
+    const getList = async () => {
+      const response = await fetch(
+        `https://hedi-guest-list-server.herokuapp.com/`,
+      );
+      const data = await response.json();
+      setList(data);
+
+      // console.log(data);
+    };
+
+    getList();
+  }, []);
   // set state for input fields
   const [fname, setfName] = React.useState('');
   const [lname, setlName] = React.useState('');
@@ -27,7 +44,9 @@ function App() {
       );
       const createdGuest = await response.json();
 
-      console.log(createdGuest);
+      window.location.reload(false);
+
+      // console.log(createdGuest);
     }
 
     newGuest();
@@ -51,7 +70,9 @@ function App() {
       );
       const deletedGuest = await response.json();
 
-      console.log(deletedGuest);
+      window.location.reload(false);
+
+      // console.log(deletedGuest);
     }
     deleteGuest();
   }
@@ -71,28 +92,12 @@ function App() {
       );
       const updatedGuest = await response.json();
 
-      console.log(updatedGuest);
+      window.location.reload(false);
+
+      // console.log(updatedGuest);
     }
     editGuest();
   }
-
-  //set state for guestList array
-  const [list, setList] = useState([]);
-
-  //fetch guest list from server, runs once
-  useEffect(() => {
-    const getList = async () => {
-      const response = await fetch(
-        `https://hedi-guest-list-server.herokuapp.com/`,
-      );
-      const data = await response.json();
-      setList(data);
-
-      console.log(data);
-    };
-
-    getList();
-  }, []);
 
   return (
     <div className="App">
@@ -165,17 +170,16 @@ function App() {
       </p>
 
       {/* Edit-Button */}
-      <p>
-        <label>
-          <button
-            type="button"
-            onClick={(item) => handleEdit(item.id)}
-            id="delete"
-          >
-            Confirm attendance
-          </button>
-        </label>
-      </p>
+
+      <label>
+        <button
+          type="button"
+          onClick={(item) => handleEdit(item.id)}
+          id="delete"
+        >
+          Confirm attendance
+        </button>
+      </label>
     </div>
   );
 }
