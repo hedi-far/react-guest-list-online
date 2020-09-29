@@ -1,0 +1,17 @@
+header {
+  text-align: center;
+}
+
+form {
+  text-align: center;
+}
+
+.guestlist {
+  margin-left: 60px;
+}
+
+td {
+  text-align: center;
+  border-style: solid;
+  border-width: 1px;
+}
