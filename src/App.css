@@ -15,3 +15,11 @@ td {
   border-style: solid;
   border-width: 1px;
 }
+
+.attending {
+  background-color: green;
+}
+
+.notAttending {
+  background-color: red;
+}

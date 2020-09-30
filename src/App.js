@@ -13,17 +13,16 @@ function App() {
       );
       const data = await response.json();
       setList(data);
-
-      // console.log(data);
     };
 
     getList();
   }, []);
+
   // set state for input fields
   const [fname, setfName] = React.useState('');
   const [lname, setlName] = React.useState('');
 
-  //When Submit button is clicked:
+  //when Submit button is clicked:
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -42,11 +41,10 @@ function App() {
           }),
         },
       );
+      //eslint-disable-next-line no-unused-vars
       const createdGuest = await response.json();
 
       window.location.reload(false);
-
-      // console.log(createdGuest);
     }
 
     newGuest();
@@ -56,7 +54,6 @@ function App() {
   const [checkboxes, setCheckboxes] = React.useState({});
 
   // Object.keys() liefert ein Array, dessen Elemente Strings sind, welche die aufzählbaren Eigenschaften des Objekts respräsentieren.
-
   const checkboxKeys = Object.keys(checkboxes);
 
   //when Delete button is clicked:
@@ -68,11 +65,10 @@ function App() {
           method: 'DELETE',
         },
       );
+      //eslint-disable-next-line no-unused-vars
       const deletedGuest = await response.json();
 
       window.location.reload(false);
-
-      // console.log(deletedGuest);
     }
     deleteGuest();
   }
@@ -90,11 +86,10 @@ function App() {
           body: JSON.stringify({ attending: true }),
         },
       );
+      //eslint-disable-next-line no-unused-vars
       const updatedGuest = await response.json();
 
       window.location.reload(false);
-
-      // console.log(updatedGuest);
     }
     editGuest();
   }
@@ -102,12 +97,13 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Enter your data here:</h1>
+        <h1>Register the guest:</h1>
       </header>
-      {/* Personalia */}
+      {/* Personalia input fields */}
       <form onSubmit={handleSubmit}>
-        <p>Personalia:</p>
-        <label>First name:</label>
+        <label>
+          <span>First name: </span>
+        </label>
         <input
           type="text"
           id="firstName"
@@ -115,7 +111,7 @@ function App() {
         />
         <br />
         <br />
-        <label>Last name:</label>
+        <label>Last name: </label>
         <input
           type="text"
           id="lastName"
@@ -127,22 +123,30 @@ function App() {
           <button>Submit</button>
         </p>
       </form>
+
       {/* Tabelle */}
       <h1 className="guestlist"> Guest list:</h1>
+      <p>
+        Attending guests are marked <span className={'attending'}>green</span>,
+        while not attending guests are marked{' '}
+        <span className={'notAttending'}>red</span>.
+      </p>
       <table>
         <tbody>
           <tr>
             <th></th>
             <th>First Name</th>
             <th>Last Name</th>
-            <th>Attendance</th>
           </tr>
           {list.map((item) => (
-            <tr key={item.id}>
+            <tr
+              key={item.id}
+              className={item.attending ? 'attending' : 'notAttending'}
+            >
               <td>
                 <input
                   type="checkbox"
-                  checked={checkboxes[item.id]}
+                  defaultChecked={checkboxes[item.id]}
                   onChange={() => {
                     setCheckboxes({ ...checkboxes, [item.id]: true });
                   }}
@@ -150,11 +154,23 @@ function App() {
               </td>
               <td>{item.firstName}</td>
               <td>{item.lastName}</td>
-              <td>{JSON.stringify(item.attending)}</td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      {/* Edit-Button */}
+      <p>
+        <label>
+          <button
+            type="button"
+            onClick={(item) => handleEdit(item.id)}
+            id="delete"
+          >
+            Confirm guest attendance
+          </button>
+        </label>
+      </p>
 
       {/* Delete-Button */}
       <p>
@@ -164,22 +180,10 @@ function App() {
             onClick={(item) => handleDelete(item.id)}
             id="delete"
           >
-            Delete
+            Delete guest
           </button>
         </label>
       </p>
-
-      {/* Edit-Button */}
-
-      <label>
-        <button
-          type="button"
-          onClick={(item) => handleEdit(item.id)}
-          id="delete"
-        >
-          Confirm attendance
-        </button>
-      </label>
     </div>
   );
 }
