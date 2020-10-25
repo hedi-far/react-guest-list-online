@@ -23,7 +23,7 @@ function App() {
   const [lname, setlName] = React.useState('');
 
   //when Submit button is clicked:
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     // create a new guest
@@ -57,7 +57,7 @@ function App() {
   const checkboxKeys = Object.keys(checkboxes);
 
   //when Delete button is clicked:
-  function handleDelete(id) {
+  function handleDelete() {
     async function deleteGuest() {
       const response = await fetch(
         `https://hedi-guest-list-server.herokuapp.com/${checkboxKeys}`,
@@ -70,11 +70,12 @@ function App() {
 
       window.location.reload(false);
     }
+
     deleteGuest();
   }
 
   //when Edit button is clicked:
-  function handleEdit(id) {
+  function handleEdit() {
     async function editGuest() {
       const response = await fetch(
         `https://hedi-guest-list-server.herokuapp.com/${checkboxKeys}`,
