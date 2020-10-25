@@ -8,8 +8,6 @@ The guest data is stored on a server deployed on Heroku.
 
 ![Screenshot](./screenshot.jpg)
 
-Please run `yarn start` to start the application
-
 ## Links
 
 [More info about the server](https://github.com/upleveled/express-guest-list-api-memory-data-store)
@@ -20,3 +18,12 @@ Please run `yarn start` to start the application
 
 - [ ] Confirming multiple guests at once does not work
 - [ ] Deleting multiple guests at once does not work
+
+## CodeSandbox
+
+[Find the project on CodeSandbox](https://codesandbox.io/s/github/hedi-far/react-guest-list-online)
+
+## Instructions
+
+Please run `yarn start` to start the application.
+
