@@ -8,8 +8,6 @@ The guest data is stored on a server deployed on Heroku.
 
 ![Screenshot](./screenshot.jpg)
 
-Please run `yarn start` to start the application
-
 ## Links
 
 [More info about the server](https://github.com/upleveled/express-guest-list-api-memory-data-store)
