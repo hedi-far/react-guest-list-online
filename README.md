@@ -15,8 +15,3 @@ Please run `yarn start` to start the application
 [More info about the server](https://github.com/upleveled/express-guest-list-api-memory-data-store)
 
 [Local version of the app](https://github.com/hedi-far/react-guest-list-local)
-
-## To Do
-
-- [ ] Confirming multiple guests at once does not work
-- [ ] Deleting multiple guests at once does not work

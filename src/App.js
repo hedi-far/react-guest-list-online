@@ -58,9 +58,9 @@ function App() {
 
   //when Delete button is clicked:
   function handleDelete() {
-    async function deleteGuest() {
+    async function deleteGuest(id) {
       const response = await fetch(
-        `https://hedi-guest-list-server.herokuapp.com/${checkboxKeys}`,
+        `https://hedi-guest-list-server.herokuapp.com/${id}`,
         {
           method: 'DELETE',
         },
@@ -71,14 +71,14 @@ function App() {
       window.location.reload(false);
     }
 
-    deleteGuest();
+    checkboxKeys.map((id) => deleteGuest(id));
   }
 
   //when Edit button is clicked:
   function handleEdit() {
-    async function editGuest() {
+    async function editGuest(id) {
       const response = await fetch(
-        `https://hedi-guest-list-server.herokuapp.com/${checkboxKeys}`,
+        `https://hedi-guest-list-server.herokuapp.com/${id}`,
         {
           method: 'PATCH',
           headers: {
@@ -92,7 +92,7 @@ function App() {
 
       window.location.reload(false);
     }
-    editGuest();
+    checkboxKeys.map((id) => editGuest(id));
   }
 
   return (
